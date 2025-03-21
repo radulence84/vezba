@@ -9,4 +9,4 @@ class ProdavnicaSerializer(serializers.ModelSerializer):
 class ProizvodSerializer(serializers.ModelSerializer):
     class Meta:
         model = Proizvod
-        fields = ['naziv_proizvoda','opis','cena']
+        fields = ['naziv_proizvoda','opis','cena','prodavnica']
