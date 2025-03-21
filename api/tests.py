@@ -41,3 +41,12 @@ class ProizvodModelTest(TestCase):
         self.assertEqual(self.proizvod.opis, "Test Opis")
         self.assertEqual(self.proizvod.cena, 100.00)
         self.assertEqual(self.proizvod.prodavnica, self.prodavnica)
+
+    def test_proizvod_str_metoda(self):
+        self.assertEqual(str(self.proizvod), "Test Proizvod")
+
+    def test_proizvod_polja(self):
+        self.assertEqual(self.proizvod._meta.get_field('naziv_proizvoda').max_length, 50)
+        self.assertEqual(self.proizvod._meta.get_field('cena').max_digits, 10)
+        self.assertEqual(self.proizvod._meta.get_field('cena').decimal_places, 2)
+        self.assertEqual(self.proizvod._meta.get_field('prodavnica').related_model, Prodavnica)
