@@ -1,9 +1,19 @@
 from django.test import TestCase
 from .models import Prodavnica,Proizvod
+from rest_framework_simplejwt.tokens import AccessToken
+from django.contrib.auth.models import User
+
+
+class KorisnikModelTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpassword')
+        self.access_token = str(AccessToken.for_user(self.user))
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
 
 class ProdavnicaModelTest(TestCase):
     def setUp(self):
-        #kreiramo testni objekat
         self.prodavnica = Prodavnica.objects.create(
             naziv_prodavnice = "Test Prodavnica",
             lokacija_prodavnice = "Test Lokacija"
@@ -23,7 +33,6 @@ class ProdavnicaModelTest(TestCase):
 
 class ProizvodModelTest(TestCase):
     def setUp(self):
-        #kreiramo testni objekat
         self.prodavnica = Prodavnica.objects.create(
             naziv_prodavnice = "Test Prodavnica",
             lokacija_prodavnice = "Test Lokacija"
