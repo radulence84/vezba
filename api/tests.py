@@ -2,7 +2,8 @@ from django.test import TestCase
 from .models import Prodavnica,Proizvod
 from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth.models import User
-
+from rest_framework.test import APIClient
+from django.urls import reverse
 
 class KorisnikModelTest(TestCase):
     def setUp(self):
@@ -10,7 +11,21 @@ class KorisnikModelTest(TestCase):
             username='testuser',
             password='testpassword')
         self.access_token = str(AccessToken.for_user(self.user))
-        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+        self.client = APIClient()
+    def test_napravi_prodavnicu(self):
+        payload = {
+            "naziv_prodavnice": "Test Prodavnica",
+            "lokacija_prodavnice": "Test Lokacija"
+        }
+        prodavnica_url = reverse("prodavnica-list")
+        headers = {"Authorization": f"Bearer {self.access_token}"}
+        response = self.client.post(prodavnica_url, payload, format="json", headers=headers)
+        self.assertEqual(response.status_code, 201)
+
+        self.assertEqual(Prodavnica.objects.count(), 1)
+        db_prodavnica = Prodavnica.objects.get(id=response.data["id"])
+        self.assertEqual(db_prodavnica.naziv_prodavnice, "Test Prodavnica")
+        self.assertEqual(db_prodavnica.lokacija_prodavnice, "Test Lokacija")
 
 class ProdavnicaModelTest(TestCase):
     def setUp(self):
