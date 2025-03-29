@@ -43,6 +43,11 @@ class KorisnikModelTest(TestCase):
         response = self.client.post(proizvod_url, payload, format="json", headers=headers)
 
         self.assertEqual(response.status_code,201)
+        db_proizvod = Proizvod.objects.get(id=response.data["id"])
+        self.assertEqual(db_proizvod.naziv_proizvoda, "proizvod 1")
+        self.assertEqual(db_proizvod.opis, "opis 1")
+        self.assertEqual(db_proizvod.cena, 150)
+        self.assertEqual(db_proizvod.prodavnica, prodavnica)
 
 '''class ProdavnicaModelTest(TestCase):
     def setUp(self):
