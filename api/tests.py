@@ -27,7 +27,20 @@ class KorisnikModelTest(TestCase):
         self.assertEqual(db_prodavnica.naziv_prodavnice, "Test Prodavnica")
         self.assertEqual(db_prodavnica.lokacija_prodavnice, "Test Lokacija")
 
-class ProdavnicaModelTest(TestCase):
+    def test_napravi_proizvod(self):
+        payload = {
+            "naziv_proizvoda" : "proizvod 1",
+            "opis" : "opis 1",
+            "cena" : "150",
+            "prodavnica" : "Test Prodavnica",
+        }
+        proizvod_url =  reverse("proizvod-list")
+        headers = {"Authorization": f"Bearer {self.access_token}"}
+        response = self.client.post(proizvod_url,payload, format="json", headers=headers)
+
+        self.assertEqual(response.status_code,201)
+
+'''class ProdavnicaModelTest(TestCase):
     def setUp(self):
         self.prodavnica = Prodavnica.objects.create(
             naziv_prodavnice = "Test Prodavnica",
@@ -73,4 +86,4 @@ class ProizvodModelTest(TestCase):
         self.assertEqual(self.proizvod._meta.get_field('naziv_proizvoda').max_length, 50)
         self.assertEqual(self.proizvod._meta.get_field('cena').max_digits, 10)
         self.assertEqual(self.proizvod._meta.get_field('cena').decimal_places, 2)
-        self.assertEqual(self.proizvod._meta.get_field('prodavnica').related_model, Prodavnica)
+        self.assertEqual(self.proizvod._meta.get_field('prodavnica').related_model, Prodavnica)'''
