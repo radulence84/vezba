@@ -47,7 +47,7 @@ class KorisnikModelTest(TestCase):
         self.assertEqual(db_proizvod.naziv_proizvoda, "proizvod 1")
         self.assertEqual(db_proizvod.opis, "opis 1")
         self.assertEqual(db_proizvod.cena, 150)
-        self.assertEqual(db_proizvod.prodavnica, prodavnica)
+        self.assertEqual(db_proizvod.prodavnica, prodavnica.naziv_prodavnice)
 
 '''class ProdavnicaModelTest(TestCase):
     def setUp(self):
