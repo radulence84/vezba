@@ -36,7 +36,7 @@ class KorisnikModelTest(TestCase):
         }
         proizvod_url =  reverse("proizvod-list")
         headers = {"Authorization": f"Bearer {self.access_token}"}
-        response = self.client.post(proizvod_url,payload, format="json", headers=headers)
+        response = self.client.post(proizvod_url, payload, format="json", headers=headers)
 
         self.assertEqual(response.status_code,201)
 
