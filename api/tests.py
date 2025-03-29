@@ -28,11 +28,15 @@ class KorisnikModelTest(TestCase):
         self.assertEqual(db_prodavnica.lokacija_prodavnice, "Test Lokacija")
 
     def test_napravi_proizvod(self):
+        prodavnica = Prodavnica.objects.create(
+            naziv_prodavnice="Test Prodavnica",
+            lokacija_prodavnice="Test Lokacija"
+        )
         payload = {
             "naziv_proizvoda" : "proizvod 1",
             "opis" : "opis 1",
             "cena" : "150",
-            "prodavnica" : "Test Prodavnica",
+            "prodavnica" : prodavnica.id,
         }
         proizvod_url =  reverse("proizvod-list")
         headers = {"Authorization": f"Bearer {self.access_token}"}
