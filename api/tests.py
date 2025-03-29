@@ -44,10 +44,11 @@ class KorisnikModelTest(TestCase):
 
         self.assertEqual(response.status_code,201)
         db_proizvod = Proizvod.objects.get(id=response.data["id"])
-        self.assertEqual(db_proizvod.naziv_proizvoda, "proizvod 1")
-        self.assertEqual(db_proizvod.opis, "opis 1")
-        self.assertEqual(db_proizvod.cena, 150)
-        self.assertEqual(db_proizvod.prodavnica, prodavnica.naziv_prodavnice)
+        self.assertEqual(db_proizvod.naziv_proizvoda, payload["naziv_proizvoda"])
+        self.assertEqual(db_proizvod.opis, payload["opis"])
+        self.assertEqual(db_proizvod.cena, int(payload["cena"]))
+        self.assertEqual(db_proizvod.prodavnica_id, payload["prodavnica"])
+        self.assertEqual(db_proizvod.prodavnica.naziv_prodavnice, prodavnica.naziv_prodavnice)
 
 '''class ProdavnicaModelTest(TestCase):
     def setUp(self):
