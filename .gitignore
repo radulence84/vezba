@@ -1,2 +1,17 @@
 .DS_Store
 .idea/*
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyCharm/IntelliJ IDEA specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Other IDE files (optional)
+.vscode/
+*.swp
+*.swo
