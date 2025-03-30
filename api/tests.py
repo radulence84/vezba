@@ -4,14 +4,18 @@ from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 from django.urls import reverse
+import pytest
 
-class KorisnikModelTest(TestCase):
-    def setUp(self):
+@pytest.mark.django_db
+class TestKorisnikModelTest(TestCase):
+    @pytest.fixture(autouse=True)
+    def setup(self):
         self.user = User.objects.create_user(
             username='testuser',
             password='testpassword')
         self.access_token = str(AccessToken.for_user(self.user))
         self.client = APIClient()
+        ...
     def test_napravi_prodavnicu(self):
         payload = {
             "naziv_prodavnice": "Test Prodavnica",
@@ -40,7 +44,7 @@ class KorisnikModelTest(TestCase):
         }
         proizvod_url =  reverse("proizvod-list")
         headers = {"Authorization": f"Bearer {self.access_token}"}
-        response = self.client.post(proizvod_url, payload, format="json", headers=headers)
+        response = self.client.post(proizvod_url, data = payload, format="json", headers=headers)
 
         self.assertEqual(response.status_code,201)
         db_proizvod = Proizvod.objects.get(id=response.data["id"])

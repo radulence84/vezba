@@ -1,11 +1,13 @@
-from rest_framework_simplejwt.authentication import JWTAuthentication
-
-from .models import Proizvod,Prodavnica
+from django.http import QueryDict
+from rest_framework import status
 from rest_framework import viewsets
-from .serializers import ProdavnicaSerializer, ProizvodSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+from .models import Proizvod, Prodavnica
+from .serializers import ProdavnicaSerializer, ProizvodSerializer
+
 
 class ProdavnicaViewSet(viewsets.ModelViewSet):
     queryset = Prodavnica.objects.all()
@@ -64,6 +66,11 @@ class ProizvodViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         """Create"""
         payload = request.data
+
+        # If your payload is a QueryDict
+        if isinstance(payload, QueryDict):
+            payload = dict(payload.items())
+
         # payload["promo_cena"] = int(payload["cena"]) * 0.9
         payload["created_by"] = request.user
         serializer = self.get_serializer(data=payload)
